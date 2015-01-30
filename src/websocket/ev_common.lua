@@ -111,7 +111,7 @@ local message_io = function(sock,loop,on_message,on_error)
     while message_io:is_active() do
       local encoded,err,part = sock:receive(100000)
       if err then
-        if err == 'timeout' and #part == 0 then
+        if (err == 'timeout' or err == "wantread") and #part == 0 then
           return
         elseif #part == 0 then
           if message_io then

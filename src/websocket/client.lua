@@ -6,18 +6,31 @@ local new = function(ws)
   ws =  ws or {}
   local self = {}
   
-  self.sock_connect = function(self,host,port)
+  self.sock_connect = function(self,host,port,protocol)
     self.sock = socket.tcp()
     if ws.timeout ~= nil then
       self.sock:settimeout(ws.timeout)
     end
     if type(ws.ua) == "string" then
-        self.ua = ws.ua
+      self.ua = ws.ua
     end
     local _,err = self.sock:connect(host,port)
     if err then
       self.sock:close()
       return nil,err
+    end
+
+    if protocol == 'wss' then
+      --do ssl handshake
+      local ssl = require("ssl")
+      local params = {
+        mode = "client",
+        protocol = "tlsv1",
+        verify = "none",
+        options = "all",
+      }
+      self.sock = ssl.wrap(self.sock, params)
+      self.sock:dohandshake()
     end
   end
   

@@ -122,10 +122,10 @@ local connect = function(self,ws_url,ws_protocol)
     return nil,'wrong state'
   end
   local protocol,host,port,uri = tools.parse_url(ws_url)
-  if protocol ~= 'ws' then
+  if protocol ~= 'ws' and protocol ~= 'wss' then
     return nil,'bad protocol'
   end
-  local _,err = self:sock_connect(host,port)
+  local _,err = self:sock_connect(host,port, protocol)
   if err then
     return nil,err
   end

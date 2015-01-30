@@ -127,6 +127,8 @@ local parse_url = function(url)
     port = tonumber(port)
   elseif protocol == 'ws' then
     port = 80
+  elseif protocol == 'wss' then
+    port = 443
   end
   if not uri or uri == '' then
     uri = '/'
