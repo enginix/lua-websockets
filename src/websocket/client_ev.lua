@@ -19,6 +19,9 @@ local ev = function(ws)
   local async_send
   local self = {}
   self.state = 'CLOSED'
+  if type(ws.ua) == "string" then
+      self.ua = ws.ua
+  end
   local close_timer
   local user_on_message
   local user_on_close
@@ -134,6 +137,7 @@ local ev = function(ws)
           key = key,
           host = host,
           port = port,
+          ua = self.ua,
           protocols = {ws_protocol or ''},
           origin = ws.origin,
           uri = uri

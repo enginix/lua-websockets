@@ -135,6 +135,7 @@ local connect = function(self,ws_url,ws_protocol)
     key = key,
     host = host,
     port = port,
+    ua = self.ua,
     protocols = {ws_protocol or ''},
     uri = uri
   }

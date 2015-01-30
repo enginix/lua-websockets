@@ -11,6 +11,9 @@ local new = function(ws)
     if ws.timeout ~= nil then
       self.sock:settimeout(ws.timeout)
     end
+    if type(ws.ua) == "string" then
+        self.ua = ws.ua
+    end
     local _,err = self.sock:connect(host,port)
     if err then
       self.sock:close()
@@ -41,5 +44,5 @@ return {
   new = new,
   sync = new,
   ev = require'websocket.client_ev',
-  copas = require'websocket.client_copas'
+  --copas = require'websocket.client_copas'
 }
