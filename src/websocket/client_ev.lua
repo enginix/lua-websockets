@@ -52,7 +52,7 @@ local ev = function(ws)
       sock = nil
     end
   end
-  
+
   local on_close = function(was_clean,code,reason)
     cleanup()
     self.state = 'CLOSED'
@@ -103,12 +103,12 @@ local ev = function(ws)
       end
     end
   end
-  
+
   self.send = function(_,message,opcode)
     local encoded = frame.encode(message,opcode or frame.TEXT,true)
     async_send(encoded, nil, handle_socket_err)
   end
-  
+
   self.connect = function(_,url,ws_protocol)
     if self.state ~= 'CLOSED' then
       on_error('wrong state',true)
@@ -118,6 +118,12 @@ local ev = function(ws)
     if protocol ~= 'ws' and protocol ~= 'wss' then
       on_error('bad protocol')
       return
+    end
+    local ws_protocols_tbl = {''}
+    if type(ws_protocol) == 'string' then
+        ws_protocols_tbl = {ws_protocol}
+    elseif type(ws_protocol) == 'table' then
+        ws_protocols_tbl = ws_protocol
     end
     self.state = 'CONNECTING'
     assert(not sock)
@@ -138,7 +144,7 @@ local ev = function(ws)
         host = host,
         port = port,
         ua = self.ua,
-        protocols = {ws_protocol or ''},
+        protocols = ws_protocols_tbl,
         origin = ws.origin,
         uri = uri
       }
@@ -237,23 +243,23 @@ local ev = function(ws)
       on_error(err)
     end
   end
-  
+
   self.on_close = function(_,on_close_arg)
     user_on_close = on_close_arg
   end
-  
+
   self.on_error = function(_,on_error_arg)
     user_on_error = on_error_arg
   end
-  
+
   self.on_open = function(_,on_open_arg)
     user_on_open = on_open_arg
   end
-  
+
   self.on_message = function(_,on_message_arg)
     user_on_message = on_message_arg
   end
-  
+
   self.close = function(_,code,reason,timeout)
     if handshake_io then
       handshake_io:stop(loop)
@@ -278,7 +284,7 @@ local ev = function(ws)
       close_timer:start(loop)
     end
   end
-  
+
   return self
 end
 
