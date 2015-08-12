@@ -47,7 +47,7 @@ local ev = function(ws)
       message_io = nil
     end
     if sock then
-      sock:shutdown()
+      --sock:shutdown()
       sock:close()
       sock = nil
     end
