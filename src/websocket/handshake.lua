@@ -44,6 +44,7 @@ local upgrade_request = function(req)
   local lines = {
     format('GET %s HTTP/1.1',req.uri or ''),
     format('Host: %s',req.host),
+    format('User-Agent: %s', req.ua or "lua-websocket"),
     'Upgrade: websocket',
     'Connection: Upgrade',
     format('Sec-WebSocket-Key: %s',req.key),
