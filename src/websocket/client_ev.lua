@@ -84,7 +84,7 @@ local ev = function(ws)
     end
   end
   local on_message = function(message,opcode)
-    if opcode == frame.TEXT or opcode == frame.BINARY then
+    if opcode == frame.TEXT or opcode == frame.BINARY or opcode == frame.PONG then
       if user_on_message then
         user_on_message(self,message,opcode)
       end
