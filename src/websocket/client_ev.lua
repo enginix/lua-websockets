@@ -260,6 +260,10 @@ local ev = function(ws)
     user_on_message = on_message_arg
   end
 
+  self.get_sock = function()
+    return sock
+  end
+
   self.close = function(_,code,reason,timeout)
     if handshake_io then
       handshake_io:stop(loop)
