@@ -28,7 +28,7 @@ local async_send = function(sock,loop)
   local send = function(loop,write_io)
     local len = #buffer
     local sent,err,last = sock_send(sock,buffer,index)
-    if not sent and err ~= 'timeout' then
+    if not sent and err ~= 'timeout' and err ~= 'wantwrite' then
       write_io:stop(loop)
       if callbacks.on_err then
         if write_io:is_active() then

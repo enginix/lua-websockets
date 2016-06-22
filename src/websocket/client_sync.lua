@@ -30,7 +30,11 @@ local new = function(ws)
           options = "all",
       }
       self.sock = ssl.wrap(self.sock, params)
-      self.sock:dohandshake()
+      ok, err = self.sock:dohandshake()
+      if not ok then
+        self.sock:close()
+        return nil, "ssl handshake failed: " .. err
+      end
     end
   end
   
