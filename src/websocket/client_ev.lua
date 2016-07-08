@@ -127,7 +127,7 @@ local ev = function(ws)
     end
     self.state = 'CONNECTING'
     assert(not sock)
-    sock = socket.tcp()
+    sock = socket.tcp4 and socket.tcp4() or socket.tcp()
     fd = sock:getfd()
     assert(fd > -1)
     -- set non blocking

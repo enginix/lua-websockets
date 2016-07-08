@@ -9,7 +9,7 @@ local new = function(ws)
   local self = {}
   
   self.sock_connect = function(self,host,port)
-    self.sock = socket.tcp()
+    self.sock = socket.tcp4 and socket.tcp4() or socket.tcp()
     if ws.timeout ~= nil then
       self.sock:settimeout(ws.timeout)
     end
